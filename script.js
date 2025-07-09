@@ -7,8 +7,9 @@ function loadTasks() {
   const today = new Date().toDateString();
 
   if (savedDate !== today) {
-    // New day → Reset tasks to default
-    const resetTasks = DEFAULT_TASKS.map(task => ({ text: task, done: false }));
+    // New day → Reset all existing tasks to not done
+    const existingTasks = JSON.parse(localStorage.getItem(TASKS_KEY)) || DEFAULT_TASKS.map(text => ({ text, done: false }));
+    const resetTasks = existingTasks.map(task => ({ ...task, done: false }));
     localStorage.setItem(TASKS_KEY, JSON.stringify(resetTasks));
     localStorage.setItem(DATE_KEY, today);
   }
